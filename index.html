@@ -2,132 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UAV Formation Control Project</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-      line-height: 1.6;
+    :root { color-scheme: light; --ink: #25272b; --muted: #676d76; --line: #e7e9ed; --soft: #f6f7f9; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.65; }
+    img { display: block; max-width: 100%; height: auto; }
+    .container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+    .hero { padding: 56px 0 40px; text-align: center; }
+    .paper-title { margin: 0 auto; max-width: 1080px; font-size: 1rem; }
+    .paper-title img { width: 100%; }
+    .authors { width: min(800px, 100%); margin: 20px auto 0; }
+    .resources { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 28px; }
+    .resource-link { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-width: 120px; min-height: 46px; padding: 10px 23px; border: 1px solid #303238; border-radius: 999px; background: #303238; color: #fff; font-weight: 600; line-height: 1.4; text-decoration: none; }
+    .resource-link:hover { background: #45484f; }
+    .resource-link:focus-visible { outline: 3px solid #3b82ad; outline-offset: 4px; }
+    .resource-link[aria-disabled="true"] { cursor: default; }
+    .resource-link svg { flex: 0 0 auto; width: 19px; height: 19px; }
+    .section { padding: 44px 0; }
+    .section-title { margin: 0 0 28px; text-align: center; font-size: 30px; font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; }
+    .abstract-section { padding-top: 12px; padding-bottom: 50px; }
+    .abstract-image { width: 100%; max-width: 980px; margin-inline: auto; }
+    .framework-section { background: var(--soft); border-block: 1px solid var(--line); padding: 42px 0 34px; }
+    .framework { margin: 0; }
+    .framework-image { width: 100%; background: #fff; }
+    .framework figcaption { margin-top: 16px; color: var(--muted); text-align: center; font-size: 16px; }
+    .experiments-heading { padding: 46px 0 0; }
+    .experiments-heading .section-title { margin-bottom: 0; }
+    .experiment { padding: 34px 0 46px; }
+    .experiment + .experiment { background: var(--soft); border-block: 1px solid var(--line); padding-top: 40px; }
+    .video-container { max-width: 1000px; }
+    .video-title { max-width: 900px; margin: 0 auto 24px; text-align: center; font-size: 23px; font-weight: 600; line-height: 1.45; }
+    video { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; border-radius: 10px; background: #111; object-fit: contain; }
+    .footer { padding: 34px 0 30px; text-align: center; color: var(--muted); font-size: 15px; }
+    .university-logo { width: 94px; margin: 0 auto 14px; }
+    .footer p { margin: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @media (max-width: 640px) {
+      .container { width: calc(100% - 28px); }
+      .hero { padding: 28px 0 30px; }
+      .authors { margin-top: 12px; }
+      .resources { margin-top: 22px; gap: 10px; }
+      .resource-link { min-width: 112px; padding-inline: 20px; }
+      .section { padding-block: 30px; }
+      .section-title { font-size: 25px; margin-bottom: 20px; }
+      .abstract-section { padding-top: 8px; }
+      .framework-section { padding-block: 28px; }
+      .framework figcaption { font-size: 15px; }
+      .experiments-heading { padding-top: 30px; }
+      .experiment, .experiment + .experiment { padding-block: 28px 34px; }
+      .video-title { font-size: 19px; margin-bottom: 18px; }
+      video { border-radius: 6px; }
     }
-    h1, h2 {
-      text-align: center;
-    }
-    .abstract {
-      background: #f5f5f5;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: justify;
-    }
-    video {
-      width: 100%;
-      margin-top: 10px;
-      border-radius: 8px;
-    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
-  <script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-  
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
-  
 <body>
-  
-<div style="text-align:center; margin-top:20px;">
-  <img src="images/title.png"
-       alt="Title"
-       style="
-         width:900px;
-         max-width:95%;
-         height:auto;
-       ">
-</div>
+  <main>
+    <header class="hero">
+      <div class="container">
+        <!-- Keep the original title and author artwork unchanged. -->
+        <h1 class="paper-title"><img src="images/title.png" alt="Title" fetchpriority="high"></h1>
+        <img class="authors" src="images/author.png" alt="Author">
+        <nav class="resources" aria-label="Paper and video resources">
+          <!-- Add the paper URL by replacing the href="#" below. -->
+          <a class="resource-link" href="#" data-resource="Paper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M8 12h8M8 16h6"/></svg>
+            <span>Paper</span>
+          </a>
+          <!-- Add the Bilibili URL by replacing the href="#" below. -->
+          <a class="resource-link" href="#" data-resource="Bilibili">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="m8 2 3 4m5-4-3 4M8 11v4m8-4v4M9 18h6"/></svg>
+            <span>Bilibili</span>
+          </a>
+        </nav>
+        <span id="resource-status" class="sr-only" role="status"></span>
+      </div>
+    </header>
 
-  <div style="text-align:center; margin-top:20px;">
-  <img src="images/author.png"
-       alt="Author"
-       style="
-         width:900px;
-         max-width:95%;
-         height:auto;
-       ">
-</div>
+    <section class="section abstract-section" aria-labelledby="abstract-title">
+      <div class="container">
+        <h2 id="abstract-title" class="section-title">Abstract</h2>
+        <img class="abstract-image" src="images/abstract.png" alt="Abstract">
+      </div>
+    </section>
 
-<h2>Abstract</h2>
+    <section class="framework-section" aria-label="Formation control framework">
+      <div class="container">
+        <figure class="framework">
+          <img class="framework-image" src="strategy.png" alt="Formation control framework with localization and reference generation, an adaptive weighted adjacency matrix, prescribed performance formation control, a prescribed time disturbance observer, and the experimental platform." loading="lazy" decoding="async">
+          <figcaption>Formation control framework.</figcaption>
+        </figure>
+      </div>
+    </section>
 
-<div style="
-text-align:center;
-margin-top:20px;
-margin-bottom:30px;
-">
-  <img src="images/abstract.png"
-       alt="Abstract"
-       style="
-         width:1000px;
-         max-width:100%;
-         height:auto;
-         border-radius:10px;
-       ">
-</div>
+    <section aria-labelledby="experiments-title">
+      <div class="container experiments-heading">
+        <h2 id="experiments-title" class="section-title">Experimental Videos</h2>
+      </div>
+      <article class="experiment" aria-labelledby="controller-video-title">
+        <div class="container video-container">
+          <h3 id="controller-video-title" class="video-title">Video 1: Experimental verification of controller effectiveness</h3>
+          <video controls playsinline preload="metadata" aria-labelledby="controller-video-title">
+            <source src="videos/controller_effectiveness.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+        </div>
+      </article>
+      <article class="experiment" aria-labelledby="observer-video-title">
+        <div class="container video-container">
+          <h3 id="observer-video-title" class="video-title">Video 2: Disturbance observer verification experiments under wind disturbance</h3>
+          <video controls playsinline preload="metadata" aria-labelledby="observer-video-title">
+            <source src="videos/disturbance_observer.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+        </div>
+      </article>
+    </section>
+  </main>
 
-  <div style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:40px;
-">
-
- <div style="width:120px;"></div>
-    
-  <h2 style="
-  margin:0 auto;
-  flex:1;
-  text-align:center;
-  ">
-  Experimental Videos
-  </h2>
-
-  <img src="images/nwpu_logo.png" 
-       style="
-       width:120px;
-       margin-right:20px;
-       ">
-</div>
-
-<h3>Video 1: Experimental verification of controller effectiveness</h3>
-<video controls>
-  <source src="videos/controller_effectiveness.mp4" type="video/mp4">
-</video>
-
-<h3>Video 2: Disturbance observer verification experiments under wind disturbance</h3>
-<video controls>
-  <source src="videos/disturbance_observer.mp4" type="video/mp4">
-</video>
-
-<hr>
-
-<div style="
-text-align:center;
-font-size:15px;
-color:gray;
-margin-top:20px;
-margin-bottom:20px;
-">
-Page Views:
-<span id="busuanzi_value_site_pv"></span>
-</div>
-  
-<!-- redeploy -->
+  <footer class="footer">
+    <div class="container">
+      <img class="university-logo" src="images/nwpu_logo.png" alt="Northwestern Polytechnical University" loading="lazy">
+      <p>Page Views: <span id="busuanzi_value_site_pv"></span></p>
+    </div>
+  </footer>
+  <script>
+    document.querySelectorAll('[data-resource]').forEach(function (link) {
+      if (link.getAttribute('href') === '#') {
+        link.setAttribute('aria-disabled', 'true');
+        link.title = 'Link coming soon';
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          document.getElementById('resource-status').textContent = link.dataset.resource + ' link coming soon.';
+        });
+      } else {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    });
+  </script>
 </body>
 </html>
